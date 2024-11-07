@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #todo-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        #todo-input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #4CAF50;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            display: block;
+            margin-top: 10px;
+            color: #4CAF50;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #todo-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #todo-list li {
+            background-color: #f9f9f9;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="todo-container">
+        <h2>Welcome <span id="username-display"></span>!</h2>
+        <h3>Your To-Do List:</h3>
+
+        <input type="text" id="todo-input" placeholder="Add a new task">
+        <button type="button" onclick="addToDo()">Add to list</button>
+        <button type="button" onclick="clearList()">Clear</button>
+        <a href="login.html" onclick="logout()">Sign Out</a>
+
+        <ul id="todo-list"></ul>
+    </div>
+
+    <script>
+        // Récupère et affiche le nom d'utilisateur depuis le stockage local
+        const username = localStorage.getItem("username");
+        document.getElementById("username-display").textContent = username ? username : "guest";
+
+        function addToDo() {
+            var todotext = document.getElementById("todo-input").value;
+
+            if (todotext === '') {
+                alert("Please enter a task");
+                return;
+            }
+
+            var list = document.getElementById("todo-list");
+            var tasks = list.getElementsByTagName("li");
+
+            // Vérifie si la tâche existe déjà
+            for (var i = 0; i < tasks.length; i++) {
+                if (tasks[i].textContent === todotext) {
+                    alert("Task already exists");
+                    document.getElementById("todo-input").value = '';
+                    return;
+                }
+            }
+
+            var li = document.createElement("li");
+            li.textContent = todotext;
+            list.appendChild(li);
+
+            // Vide le champ de saisie après l'ajout
+            document.getElementById("todo-input").value = '';
+        }
+
+        function clearList() {
+            document.getElementById("todo-list").innerHTML = '';
+        }
+
+        function logout() {
+            
+            // Supprime le nom d'utilisateur du stockage local et redirige vers la page de connexion
+            localStorage.removeItem("username");
+        }
+    </script>
+</body>
+</html>
+
